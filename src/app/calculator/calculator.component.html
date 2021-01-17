@@ -1,25 +1,35 @@
-<h1>Fuel Calculator</h1>
-<mat-card>
+<div class="calcualtor-content">
+    <h1>Fuel Calculator</h1>
+    <mat-card class="card">
+        <form [formGroup]="formGroup">
+            <mat-form-field appearance="outline">
+                <mat-label>Miles per gallon</mat-label>
+                <input matInput type="number" formControlName="mpg">
+            </mat-form-field>
 
+            <mat-form-field appearance="outline">
+                <mat-label>Fuel price</mat-label>
+                <input matInput type="number" formControlName="fuelprice" placeholder="eg 1.29" step="0.01">
+            </mat-form-field>
 
-    <form [formGroup]="formGroup">
-        <mat-form-field appearance="outline">
-            <mat-label>Miles per gallon</mat-label>
-            <input matInput type="number" formControlName="mpg">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Fuel price</mat-label>
-            <span matPrefix>£</span>
-            <input matInput type="number" formControlName="fuelprice" placeholder="eg 1.29">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Distance</mat-label>
-            <input matInput type="number" formControlName="distance" placeholder="miles">
-            <span matSuffix>miles</span>
-        </mat-form-field>    
-    </form>
-
-    <span class="result"><span>Journey cost: </span><span *ngIf="!formGroup.invalid" class=result-cost> {{journeyCost | currency}}</span></span>
-</mat-card>
+            <mat-form-field appearance="outline">
+                <mat-label>Distance</mat-label>
+                <input matInput type="number" formControlName="distance" placeholder="miles">
+                <span matSuffix>miles</span>
+            </mat-form-field>
+        </form>
+    </mat-card>
+    <mat-card>
+        <span class="result">
+            <div class="result-item">
+                <span>Journey cost: </span><span *ngIf="!formGroup.invalid">{{journeyCost | currency: 'GBP'}}</span>
+            </div>
+            <div class="result-item">
+                <span>Fuel used (gallons): </span><span *ngIf="!formGroup.invalid">{{fuelUsedGallons | number}}</span>
+            </div>
+            <div class="result-item">
+                <span>Fuel used (litres): </span><span *ngIf="!formGroup.invalid">{{fuelUsedLitres | number}}</span>
+            </div>
+        </span>
+    </mat-card>
+</div>

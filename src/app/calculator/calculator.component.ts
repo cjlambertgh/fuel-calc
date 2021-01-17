@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'app-calculator',
@@ -17,8 +18,11 @@ export class CalculatorComponent implements OnInit {
   };
 
   journeyCost = 0;
-  storageKey = "fuel_data";
-  
+  fuelUsedGallons = 0;
+  fuelUsedLitres = 0;
+
+  storageKey = 'fuel_data';
+
   formGroup = new FormGroup({
     mpg: new FormControl(30, Validators.min(0)),
     distance: new FormControl(30, Validators.min(0)),
@@ -30,13 +34,12 @@ export class CalculatorComponent implements OnInit {
   ngOnInit(): void {
     if(this.loadLocalStorageData()) {
       this.setFormValues();
+      this.updateJourneyCost();
     }
-    this.formGroup.valueChanges.subscribe(() => { 
+    this.formGroup.valueChanges.subscribe(() => {
       if(!this.formGroup.invalid) {
         this.getFormValues();
-      } else {
-         console.log('invalid form');
-        } 
+      }
     });
   }
 
@@ -57,9 +60,8 @@ export class CalculatorComponent implements OnInit {
   updateJourneyCost(): void {
     const gallonPrice = this.fuelData.fuelPrice * this.litresPerGallon;
     const cost =  (this.fuelData.distance / this.fuelData.mpg) * gallonPrice;
-    const gallonsUsed = (this.fuelData.distance / this.fuelData.mpg);
-    console.log(gallonsUsed);
-    console.log(cost);
+    this.fuelUsedGallons = (this.fuelData.distance / this.fuelData.mpg);
+    this.fuelUsedLitres = this.fuelUsedGallons * this.litresPerGallon;
     this.journeyCost = cost;
   }
 
@@ -77,7 +79,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   get gallonsUsed(): number {
-    return  32
+    return  32;
   }
 
 }
